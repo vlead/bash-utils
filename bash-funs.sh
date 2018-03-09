@@ -12,9 +12,9 @@ online() {
 # Usage:
 # git-install <dir> <repo>
 
-# if <dir> exists and online => git pull
+# if <dir> exists and online => git pull origin master
 # if <dir> exists and offline => nothing
-# if <dir> doesn't exit and online => git clone
+# if <dir> doesn't exit and online => git clone <repo>
 # if <dir> doesn't exit and offline => exit 1
 
 git-install() {
@@ -22,11 +22,10 @@ git-install() {
 	repo=$2
 	if [ -d $dir ]; then
 		echo "$dir already installed"
-		cd $dir
 		if [ online ]; then
 			echo "online"
 			echo "pulling ..."
-			git pull
+			git -C $dir pull origin master
 		else
 			echo "offline"
 		fi
