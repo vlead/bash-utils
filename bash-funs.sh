@@ -37,3 +37,33 @@ git-install() {
 		exit 1
 	fi
 }
+
+
+# wget-targz
+# -----------
+# Usage:
+# targz-install <dir> <name> <repo>
+
+# <dir>  = /tmp
+# <name> = foo
+# <repo> = http://a.com/foo.tar.gz
+
+# if <dir>/<name> exists => already installed
+# if <dir> doesn't exit and online => cd wgets; wget <repo>; tar -zxvf <name>.tar.gz
+# if <dir> doesn't exit and offline => exit 1
+
+targz-install() {
+	dir=$1
+	name=$2
+	repo=$3
+	if [ -d $dir/$name ]; then
+		echo "$name already installed"
+	elif [ online ]; then
+		cmd="cd $dir; wget $repo; tar -zxvf $name.tar.gz"
+		echo "cmd=$cmd"
+		cd $dir; wget $repo; tar -zxvf $name.tar.gz
+	else
+		echo "You need to be online to install the tar-file." 2>&1
+		exit 1
+	fi
+}
