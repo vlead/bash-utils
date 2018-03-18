@@ -56,14 +56,18 @@ targz-install() {
 	dir=$1
 	name=$2
 	url=$3
-	if [ -d $dir/$name ]; then
+	cd $dir
+	if [ -d $name ]; then
 		echo "$name already installed"
+		cd ..
 	elif [ online ]; then
-		cmd="cd $dir; wget $url; tar -zxvf $name.tar.gz"
+		cmd="wget $url; tar -zxvf $name.tar.gz"
 		echo "cmd=$cmd"
-		cd $dir; wget $url; tar -zxvf $name.tar.gz
+		wget $url; tar -zxvf $name.tar.gz
+		cd ..
 	else
 		echo "You need to be online to install the tar-file." 2>&1
+		cd ..
 		exit 1
 	fi
 }
