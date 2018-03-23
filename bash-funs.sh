@@ -31,12 +31,13 @@ git-install() {
 		fi
 	elif [ online ]; then
 		echo "cloning ..."
-		git clone $repo
+		git clone $repo $dir
 	else
 		echo "You need to be online to clone the repository." 2>&1
 		exit 1
 	fi
 }
+
 
 
 # wget-targz
@@ -59,15 +60,15 @@ targz-install() {
 	cd $dir
 	if [ -d $name ]; then
 		echo "$name already installed"
-		cd ..
+		cd -
 	elif [ online ]; then
 		cmd="wget $url; tar -zxvf $name.tar.gz"
 		echo "cmd=$cmd"
 		wget $url; tar -zxvf $name.tar.gz
-		cd ..
+		cd -
 	else
 		echo "You need to be online to install the tar-file." 2>&1
-		cd ..
+		cd -
 		exit 1
 	fi
 }
